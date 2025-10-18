@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ตั้งค่าหน้าจอ</title>
+  <style>
+    body {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <h1>ตั้งค่าการแสดงผล</h1>
+
+  <form id="settings-form">
+    <label>
+      Background Color:
+      <input type="color" id="bgColor">
+    </label>
+    <br><br>
+
+    <label>
+      Font Color:
+      <input type="color" id="fontColor">
+    </label>
+    <br><br>
+
+    <label>
+      Font Size:
+      <select id="fontSize">
+        <option value="small">Small</option>
+        <option value="medium" selected>Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </label>
+    <br><br>
+
+    <button type="button" id="saveBtn">Save</button>
+    <button type="button" id="resetBtn">Reset</button>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const bgColorInput = document.getElementById("bgColor");
+      const fontColorInput = document.getElementById("fontColor");
+      const fontSizeSelect = document.getElementById("fontSize");
+
+      const saveBtn = document.getElementById("saveBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      function applySettings() {
+        const bgColor = localStorage.getItem("bgColor");
+        const fontColor = localStorage.getItem("fontColor");
+        const fontSize = localStorage.getItem("fontSize");
+
+        if (bgColor) {
+          document.body.style.backgroundColor = bgColor;
+          bgColorInput.value = bgColor;
+        }
+
+        if (fontColor) {
+          document.body.style.color = fontColor;
+          fontColorInput.value = fontColor;
+        }
+
+        if (fontSize) {
+          let size;
+          switch (fontSize) {
+            case "small": size = "14px"; break;
+            case "medium": size = "18px"; break;
+            case "large": size = "24px"; break;
+          }
+          document.body.style.fontSize = size;
+          fontSizeSelect.value = fontSize;
+        }
+      }
+
+      function saveSettings() {
+        localStorage.setItem("bgColor", bgColorInput.value);
+        localStorage.setItem("fontColor", fontColorInput.value);
+        localStorage.setItem("fontSize", fontSizeSelect.value);
+        applySettings();
+      }
+
+      function resetSettings() {
+        localStorage.clear();
+        bgColorInput.value = "#ffffff";
+        fontColorInput.value = "#000000";
+        fontSizeSelect.value = "medium";
+        document.body.style = ""; // Reset style
+      }
+
+      saveBtn.addEventListener("click", saveSettings);
+      resetBtn.addEventListener("click", resetSettings);
+
+      applySettings(); // Load on page load
+    });
+  </script>
+</body>
+</html>
