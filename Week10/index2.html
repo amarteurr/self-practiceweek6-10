@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Style Form</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .preview {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px dashed #999;
+            text-align: center;
+        }
+
+        input[type="color"] {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #fff;
+            padding: 4px 6px;
+            cursor: pointer;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="color"]:hover {
+            border-color: #888;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="color"]:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 3px #4a90e2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>ตั้งค่ารูปแบบ</h2>
+
+        <label for="bgColor">Background Color:</label>
+        <input type="color" id="bgColor" value="#ffffff">
+
+        <label for="fontColor">Font Color:</label>
+        <input type="color" id="fontColor" value="#000000">
+
+
+        <label for="fontSize">Font Size:</label>
+        <select id="fontSize">
+            <option value="0.5rem">Small</option>
+            <option value="1rem" selected>Medium</option>
+            <option value="1.5rem">Large</option>
+        </select>
+
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+
+        <div class="preview" id="previewText" style="">
+            ตัวอย่างข้อความ
+        </div>
+    </div>
+    <script>
+        let bgColor = document.getElementById('bgColor')
+        let fontColor = document.getElementById('fontColor')
+        let fontSize = document.getElementById('fontSize')
+        const submit = document.querySelector('button[type=submit]')
+        const reset = document.querySelector('button[type=reset]')
+        const previewText = document.getElementById('previewText')
+
+        window.addEventListener('load', () => {
+            previewText.style.color = localStorage.getItem('fontColor')
+            previewText.style.backgroundColor = localStorage.getItem('bgColor')
+            previewText.style.fontSize = localStorage.getItem('fontSize')
+
+            bgColor.value = localStorage.getItem('bgColor')
+            fontColor.value = localStorage.getItem('fontColor')
+            fontSize.value = localStorage.getItem('fontSize')
+        })
+
+
+
+        submit.addEventListener('click', (event) => {
+            localStorage.setItem('bgColor', bgColor.value)
+            localStorage.setItem('fontColor', fontColor.value)
+            localStorage.setItem('fontSize', fontSize.value)
+
+            console.log(localStorage.getItem('fontSize'));
+
+            previewText.style.color = localStorage.getItem('fontColor')
+            previewText.style.backgroundColor = localStorage.getItem('bgColor')
+            previewText.style.fontSize = localStorage.getItem('fontSize')
+        })
+
+        reset.addEventListener('click', (event) => {
+            localStorage.setItem('bgColor', '#ffffff')
+            localStorage.setItem('fontColor', '#000000')
+            localStorage.setItem('fontSize', '1rem')
+
+            previewText.style.color = localStorage.getItem('fontColor')
+            previewText.style.backgroundColor = localStorage.getItem('bgColor')
+            previewText.style.fontSize = localStorage.getItem('fontSize')
+
+            bgColor.value = localStorage.getItem('bgColor')
+            fontColor.value = localStorage.getItem('fontColor')
+            fontSize.value = localStorage.getItem('fontSize')
+        })
+    </script>
+</body>
+
+</html>
